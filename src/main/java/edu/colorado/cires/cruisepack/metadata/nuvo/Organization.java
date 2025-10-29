@@ -132,6 +132,7 @@ public class Organization {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
     private String name;

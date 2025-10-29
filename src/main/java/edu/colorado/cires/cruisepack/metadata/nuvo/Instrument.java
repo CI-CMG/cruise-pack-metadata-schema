@@ -27,6 +27,8 @@ public class Instrument {
   private final String instrument;
   private final String shortName;
   private final String releaseDate;
+  // allowed to be null to indicate that this should defer to the cruise level never_public setting
+  private final Boolean restricted;
   private final String status;
   private final String dataComment;
   private final String dirName;
@@ -40,6 +42,7 @@ public class Instrument {
       String instrument,
       String shortName,
       String releaseDate,
+      Boolean restricted,
       String status,
       String dataComment,
       String dirName,
@@ -52,6 +55,7 @@ public class Instrument {
     this.instrument = instrument;
     this.shortName = shortName;
     this.releaseDate = releaseDate;
+    this.restricted = restricted;
     this.status = status;
     this.dataComment = dataComment;
     this.dirName = dirName;
@@ -78,6 +82,10 @@ public class Instrument {
 
   public String getReleaseDate() {
     return releaseDate;
+  }
+
+  public Boolean getRestricted() {
+    return restricted;
   }
 
   public String getStatus() {
@@ -114,14 +122,15 @@ public class Instrument {
     Instrument that = (Instrument) o;
     return Objects.equals(uuid, that.uuid) && Objects.equals(type, that.type) && Objects.equals(instrument,
         that.instrument) && Objects.equals(shortName, that.shortName) && Objects.equals(releaseDate, that.releaseDate)
-        && Objects.equals(status, that.status) && Objects.equals(dataComment, that.dataComment) && Objects.equals(dirName,
-        that.dirName) && Objects.equals(bagName, that.bagName) && Objects.equals(ancillaryDataDetails, that.ancillaryDataDetails)
-        && Objects.equals(otherFields, that.otherFields);
+        && Objects.equals(restricted, that.restricted) && Objects.equals(status, that.status) && Objects.equals(
+        dataComment, that.dataComment) && Objects.equals(dirName, that.dirName) && Objects.equals(bagName, that.bagName)
+        && Objects.equals(ancillaryDataDetails, that.ancillaryDataDetails) && Objects.equals(otherFields, that.otherFields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, type, instrument, shortName, releaseDate, status, dataComment, dirName, bagName, ancillaryDataDetails, otherFields);
+    return Objects.hash(uuid, type, instrument, shortName, releaseDate, restricted, status, dataComment, dirName, bagName, ancillaryDataDetails,
+        otherFields);
   }
 
   @Override
@@ -132,6 +141,7 @@ public class Instrument {
         ", instrument='" + instrument + '\'' +
         ", shortName='" + shortName + '\'' +
         ", releaseDate='" + releaseDate + '\'' +
+        ", restricted=" + restricted +
         ", status='" + status + '\'' +
         ", dataComment='" + dataComment + '\'' +
         ", dirName='" + dirName + '\'' +
@@ -141,6 +151,7 @@ public class Instrument {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
     private String uuid;
@@ -148,6 +159,7 @@ public class Instrument {
     private String instrument;
     private String shortName;
     private String releaseDate;
+    private Boolean restricted;
     private String status;
     private String dataComment;
     private String dirName;
@@ -165,6 +177,7 @@ public class Instrument {
       instrument = src.getInstrument();
       shortName = src.getShortName();
       releaseDate = src.getReleaseDate();
+      restricted = src.restricted;
       status = src.getStatus();
       dataComment = src.getDataComment();
       dirName = src.getDirName();
@@ -195,6 +208,11 @@ public class Instrument {
 
     public Builder withReleaseDate(String releaseDate) {
       this.releaseDate = releaseDate;
+      return this;
+    }
+
+    public Builder withRestricted(Boolean restricted) {
+      this.restricted = restricted;
       return this;
     }
 
@@ -237,6 +255,7 @@ public class Instrument {
           instrument,
           shortName,
           releaseDate,
+          restricted,
           status,
           dataComment,
           dirName,

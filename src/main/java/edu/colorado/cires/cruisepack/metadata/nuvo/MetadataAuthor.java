@@ -84,6 +84,7 @@ public class MetadataAuthor {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
     private String name;

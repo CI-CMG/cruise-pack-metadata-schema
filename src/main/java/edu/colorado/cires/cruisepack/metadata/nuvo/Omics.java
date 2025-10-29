@@ -113,6 +113,7 @@ public class Omics {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
     private String ncbiAccession;

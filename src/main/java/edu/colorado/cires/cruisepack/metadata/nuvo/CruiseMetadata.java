@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -25,17 +26,18 @@ public class CruiseMetadata {
     return new Builder();
   }
 
-  private final boolean neverPublic;
+
   private final String cruiseId;
   private final String segmentId;
   private final String packageId;
-  private final String masterReleaseDate;
+  private final LocalDate masterReleaseDate;
+  private final boolean restricted;
   private final String ship;
   private final String shipUuid;
   private final String departurePort;
-  private final String departureDate;
+  private final LocalDate departureDate;
   private final String arrivalPort;
-  private final String arrivalDate;
+  private final LocalDate arrivalDate;
   private final String seaArea;
   private final String cruiseTitle;
   private final String cruisePurpose;
@@ -51,17 +53,17 @@ public class CruiseMetadata {
   private final Map<String, Object> otherFields;
 
   private CruiseMetadata(
-      boolean neverPublic,
       String cruiseId,
       String segmentId,
       String packageId,
-      String masterReleaseDate,
+      LocalDate masterReleaseDate,
+      boolean restricted,
       String ship,
       String shipUuid,
       String departurePort,
-      String departureDate,
+      LocalDate departureDate,
       String arrivalPort,
-      String arrivalDate,
+      LocalDate arrivalDate,
       String seaArea,
       String cruiseTitle,
       String cruisePurpose,
@@ -76,11 +78,11 @@ public class CruiseMetadata {
       Map<String, PackageInstrument> packageInstruments,
       Map<String, Object> otherFields
   ) {
-    this.neverPublic = neverPublic;
     this.cruiseId = cruiseId;
     this.segmentId = segmentId;
     this.packageId = packageId;
     this.masterReleaseDate = masterReleaseDate;
+    this.restricted = restricted;
     this.ship = ship;
     this.shipUuid = shipUuid;
     this.departurePort = departurePort;
@@ -102,10 +104,6 @@ public class CruiseMetadata {
     this.otherFields = Collections.unmodifiableMap(otherFields);
   }
 
-  public boolean isNeverPublic() {
-    return neverPublic;
-  }
-
   public String getCruiseId() {
     return cruiseId;
   }
@@ -118,8 +116,12 @@ public class CruiseMetadata {
     return packageId;
   }
 
-  public String getMasterReleaseDate() {
+  public LocalDate getMasterReleaseDate() {
     return masterReleaseDate;
+  }
+
+  public boolean isRestricted() {
+    return restricted;
   }
 
   public String getShip() {
@@ -134,7 +136,7 @@ public class CruiseMetadata {
     return departurePort;
   }
 
-  public String getDepartureDate() {
+  public LocalDate getDepartureDate() {
     return departureDate;
   }
 
@@ -142,7 +144,7 @@ public class CruiseMetadata {
     return arrivalPort;
   }
 
-  public String getArrivalDate() {
+  public LocalDate getArrivalDate() {
     return arrivalDate;
   }
 
@@ -206,7 +208,7 @@ public class CruiseMetadata {
       return false;
     }
     CruiseMetadata that = (CruiseMetadata) o;
-    return neverPublic == that.neverPublic && Objects.equals(cruiseId, that.cruiseId) && Objects.equals(segmentId, that.segmentId)
+    return restricted == that.restricted && Objects.equals(cruiseId, that.cruiseId) && Objects.equals(segmentId, that.segmentId)
         && Objects.equals(packageId, that.packageId) && Objects.equals(masterReleaseDate, that.masterReleaseDate)
         && Objects.equals(ship, that.ship) && Objects.equals(shipUuid, that.shipUuid) && Objects.equals(departurePort,
         that.departurePort) && Objects.equals(departureDate, that.departureDate) && Objects.equals(arrivalPort, that.arrivalPort)
@@ -220,7 +222,7 @@ public class CruiseMetadata {
 
   @Override
   public int hashCode() {
-    return Objects.hash(neverPublic, cruiseId, segmentId, packageId, masterReleaseDate, ship, shipUuid, departurePort, departureDate, arrivalPort,
+    return Objects.hash(cruiseId, segmentId, packageId, masterReleaseDate, restricted, ship, shipUuid, departurePort, departureDate, arrivalPort,
         arrivalDate, seaArea, cruiseTitle, cruisePurpose, cruiseDescription, sources, funders, scientists, projects, omics, metadataAuthor,
         instruments,
         packageInstruments, otherFields);
@@ -229,17 +231,17 @@ public class CruiseMetadata {
   @Override
   public String toString() {
     return "CruiseMetadata{" +
-        "neverPublic=" + neverPublic +
-        ", cruiseId='" + cruiseId + '\'' +
+        "cruiseId='" + cruiseId + '\'' +
         ", segmentId='" + segmentId + '\'' +
         ", packageId='" + packageId + '\'' +
-        ", masterReleaseDate='" + masterReleaseDate + '\'' +
+        ", masterReleaseDate=" + masterReleaseDate +
+        ", restricted=" + restricted +
         ", ship='" + ship + '\'' +
         ", shipUuid='" + shipUuid + '\'' +
         ", departurePort='" + departurePort + '\'' +
-        ", departureDate='" + departureDate + '\'' +
+        ", departureDate=" + departureDate +
         ", arrivalPort='" + arrivalPort + '\'' +
-        ", arrivalDate='" + arrivalDate + '\'' +
+        ", arrivalDate=" + arrivalDate +
         ", seaArea='" + seaArea + '\'' +
         ", cruiseTitle='" + cruiseTitle + '\'' +
         ", cruisePurpose='" + cruisePurpose + '\'' +
@@ -256,19 +258,20 @@ public class CruiseMetadata {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
-    private Boolean neverPublic;
     private String cruiseId;
     private String segmentId;
     private String packageId;
-    private String masterReleaseDate;
+    private LocalDate masterReleaseDate;
+    private Boolean restricted;
     private String ship;
     private String shipUuid;
     private String departurePort;
-    private String departureDate;
+    private LocalDate departureDate;
     private String arrivalPort;
-    private String arrivalDate;
+    private LocalDate arrivalDate;
     private String seaArea;
     private String cruiseTitle;
     private String cruisePurpose;
@@ -288,11 +291,11 @@ public class CruiseMetadata {
     }
 
     private Builder(CruiseMetadata src) {
-      neverPublic = src.neverPublic;
       cruiseId = src.getCruiseId();
       segmentId = src.getSegmentId();
       packageId = src.getPackageId();
       masterReleaseDate = src.getMasterReleaseDate();
+      restricted = src.restricted;
       ship = src.getShip();
       shipUuid = src.getShipUuid();
       departurePort = src.getDeparturePort();
@@ -314,11 +317,6 @@ public class CruiseMetadata {
       otherFields = new TreeMap<>(src.getOtherFields());
     }
 
-    public Builder withNeverPublic(Boolean neverPublic) {
-      this.neverPublic = neverPublic;
-      return this;
-    }
-
     public Builder withCruiseId(String cruiseId) {
       this.cruiseId = cruiseId;
       return this;
@@ -334,8 +332,13 @@ public class CruiseMetadata {
       return this;
     }
 
-    public Builder withMasterReleaseDate(String masterReleaseDate) {
+    public Builder withMasterReleaseDate(LocalDate masterReleaseDate) {
       this.masterReleaseDate = masterReleaseDate;
+      return this;
+    }
+
+    public Builder withRestricted(Boolean restricted) {
+      this.restricted = restricted;
       return this;
     }
 
@@ -354,7 +357,7 @@ public class CruiseMetadata {
       return this;
     }
 
-    public Builder withDepartureDate(String departureDate) {
+    public Builder withDepartureDate(LocalDate departureDate) {
       this.departureDate = departureDate;
       return this;
     }
@@ -364,7 +367,7 @@ public class CruiseMetadata {
       return this;
     }
 
-    public Builder withArrivalDate(String arrivalDate) {
+    public Builder withArrivalDate(LocalDate arrivalDate) {
       this.arrivalDate = arrivalDate;
       return this;
     }
@@ -462,11 +465,11 @@ public class CruiseMetadata {
 
     public CruiseMetadata build() {
       return new CruiseMetadata(
-          neverPublic == null ? false : neverPublic,
           cruiseId,
           segmentId,
           packageId,
           masterReleaseDate,
+          restricted == null ? false : restricted,
           ship,
           shipUuid,
           departurePort,

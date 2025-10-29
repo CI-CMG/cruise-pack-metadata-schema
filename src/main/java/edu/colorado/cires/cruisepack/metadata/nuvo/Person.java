@@ -157,6 +157,7 @@ public class Person {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
     private String name;

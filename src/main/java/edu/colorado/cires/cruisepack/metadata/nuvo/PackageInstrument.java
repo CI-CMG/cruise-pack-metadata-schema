@@ -87,6 +87,7 @@ public class PackageInstrument {
         '}';
   }
 
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Builder {
 
     private Instrument instrument;
