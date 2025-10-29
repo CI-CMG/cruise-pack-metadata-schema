@@ -29,8 +29,7 @@ public class Omics {
   private final List<String> samplingTypes;
   private final List<String> analysesTypes;
   private final String omicsComment;
-  private final OmicsPoc omicsPoc;
-  private final String trackingPath;
+  private final Person omicsPoc;
   private final Map<String, Object> otherFields;
 
   private Omics(
@@ -38,8 +37,7 @@ public class Omics {
       List<String> samplingTypes,
       List<String> analysesTypes,
       String omicsComment,
-      OmicsPoc omicsPoc,
-      String trackingPath,
+      Person omicsPoc,
       Map<String, Object> otherFields
   ) {
     this.ncbiAccession = ncbiAccession;
@@ -47,7 +45,6 @@ public class Omics {
     this.analysesTypes = analysesTypes;
     this.omicsComment = omicsComment;
     this.omicsPoc = omicsPoc;
-    this.trackingPath = trackingPath;
     this.otherFields = Collections.unmodifiableMap(otherFields);
   }
 
@@ -69,12 +66,8 @@ public class Omics {
     return omicsComment;
   }
 
-  public OmicsPoc getOmicsPoc() {
+  public Person getOmicsPoc() {
     return omicsPoc;
-  }
-
-  public String getTrackingPath() {
-    return trackingPath;
   }
 
   @Deprecated
@@ -91,13 +84,12 @@ public class Omics {
     Omics omics = (Omics) o;
     return Objects.equals(ncbiAccession, omics.ncbiAccession) && Objects.equals(samplingTypes, omics.samplingTypes)
         && Objects.equals(analysesTypes, omics.analysesTypes) && Objects.equals(omicsComment, omics.omicsComment)
-        && Objects.equals(omicsPoc, omics.omicsPoc) && Objects.equals(trackingPath, omics.trackingPath) && Objects.equals(
-        otherFields, omics.otherFields);
+        && Objects.equals(omicsPoc, omics.omicsPoc) && Objects.equals(otherFields, omics.otherFields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ncbiAccession, samplingTypes, analysesTypes, omicsComment, omicsPoc, trackingPath, otherFields);
+    return Objects.hash(ncbiAccession, samplingTypes, analysesTypes, omicsComment, omicsPoc, otherFields);
   }
 
   @Override
@@ -108,7 +100,6 @@ public class Omics {
         ", analysesTypes=" + analysesTypes +
         ", omicsComment='" + omicsComment + '\'' +
         ", omicsPoc=" + omicsPoc +
-        ", trackingPath='" + trackingPath + '\'' +
         ", otherFields=" + otherFields +
         '}';
   }
@@ -120,8 +111,7 @@ public class Omics {
     private List<String> samplingTypes;
     private List<String> analysesTypes;
     private String omicsComment;
-    private OmicsPoc omicsPoc;
-    private String trackingPath;
+    private Person omicsPoc;
     private Map<String, Object> otherFields = new TreeMap<>();
 
     private Builder() {
@@ -134,7 +124,6 @@ public class Omics {
       analysesTypes = src.analysesTypes;
       omicsComment = src.omicsComment;
       omicsPoc = src.omicsPoc;
-      trackingPath = src.trackingPath;
       otherFields = new TreeMap<>(src.otherFields);
     }
 
@@ -167,13 +156,8 @@ public class Omics {
       return this;
     }
 
-    public Builder withOmicsPoc(OmicsPoc omicsPoc) {
+    public Builder withOmicsPoc(Person omicsPoc) {
       this.omicsPoc = omicsPoc;
-      return this;
-    }
-
-    public Builder withTrackingPath(String trackingPath) {
-      this.trackingPath = trackingPath;
       return this;
     }
 
@@ -191,7 +175,6 @@ public class Omics {
           analysesTypes,
           omicsComment,
           omicsPoc,
-          trackingPath,
           otherFields
       );
     }

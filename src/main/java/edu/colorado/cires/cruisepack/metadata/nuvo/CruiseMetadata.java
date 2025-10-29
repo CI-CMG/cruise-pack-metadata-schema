@@ -47,7 +47,7 @@ public class CruiseMetadata {
   private final List<Person> scientists;
   private final List<String> projects;
   private final Omics omics;
-  private final MetadataAuthor metadataAuthor;
+  private final Person metadataAuthor;
   private final List<Instrument> instruments;
   private final Map<String, PackageInstrument> packageInstruments;
   private final Map<String, Object> otherFields;
@@ -73,7 +73,7 @@ public class CruiseMetadata {
       List<Person> scientists,
       List<String> projects,
       Omics omics,
-      MetadataAuthor metadataAuthor,
+      Person metadataAuthor,
       List<Instrument> instruments,
       Map<String, PackageInstrument> packageInstruments,
       Map<String, Object> otherFields
@@ -184,7 +184,7 @@ public class CruiseMetadata {
     return omics;
   }
 
-  public MetadataAuthor getMetadataAuthor() {
+  public Person getMetadataAuthor() {
     return metadataAuthor;
   }
 
@@ -281,7 +281,7 @@ public class CruiseMetadata {
     private List<Person> scientists;
     private List<String> projects;
     private Omics omics;
-    private MetadataAuthor metadataAuthor;
+    private Person metadataAuthor;
     private List<Instrument> instruments;
     private Map<String, PackageInstrument> packageInstruments;
     private Map<String, Object> otherFields = new TreeMap<>();
@@ -433,7 +433,7 @@ public class CruiseMetadata {
       return this;
     }
 
-    public Builder withMetadataAuthor(MetadataAuthor metadataAuthor) {
+    public Builder withMetadataAuthor(Person metadataAuthor) {
       this.metadataAuthor = metadataAuthor;
       return this;
     }

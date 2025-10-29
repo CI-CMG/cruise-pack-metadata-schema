@@ -2,10 +2,11 @@ package edu.colorado.cires.cruisepack.metadata.nuvo;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.TreeMap;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonDeserialize(builder = PackageInstrument.Builder.class)
-public class PackageInstrument {
+public class PackageInstrument implements InstrumentGetters {
 
   public static Builder builder() {
     return new Builder();
@@ -43,9 +44,50 @@ public class PackageInstrument {
     this.otherFields = Collections.unmodifiableMap(otherFields);
   }
 
-  @JsonUnwrapped
-  public Instrument getInstrument() {
+  // not using @JsonUnwrapped as it does wierd things with otherFields
+  @JsonIgnore
+  public Instrument getInstrumentObject() {
     return instrument;
+  }
+
+  public String getUuid() {
+    return instrument.getUuid();
+  }
+
+  public String getType() {
+    return instrument.getType();
+  }
+
+  public String getInstrument() {
+    return instrument.getInstrument();
+  }
+
+  public String getShortName() {
+    return instrument.getShortName();
+  }
+
+  public LocalDate getReleaseDate() {
+    return instrument.getReleaseDate();
+  }
+
+  public Boolean getRestricted() {
+    return instrument.getRestricted();
+  }
+
+  public String getStatus() {
+    return instrument.getStatus();
+  }
+
+  public String getDataComment() {
+    return instrument.getDataComment();
+  }
+
+  public String getDirName() {
+    return instrument.getDirName();
+  }
+
+  public String getBagName() {
+    return instrument.getBagName();
   }
 
   public String getTypeName() {
@@ -88,9 +130,9 @@ public class PackageInstrument {
   }
 
   @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-  public static class Builder {
+  public static class Builder implements InstrumentBuilder {
 
-    private Instrument instrument;
+    private Instrument.Builder instrumentBuilder = Instrument.builder();
     private String typeName;
     private List<String> extensions;
     private Map<String, Object> otherFields = new TreeMap<>();
@@ -100,15 +142,76 @@ public class PackageInstrument {
     }
 
     private Builder(PackageInstrument src) {
-      instrument = src.instrument;
+      instrumentBuilder = Instrument.builder(src.getInstrumentObject());
       typeName = src.typeName;
       extensions = src.extensions;
       otherFields = new TreeMap<>(src.otherFields);
     }
 
-    @JsonUnwrapped
-    public Builder withInstrument(Instrument instrument) {
-      this.instrument = instrument;
+    // not using @JsonUnwrapped as it does wierd things with otherFields
+    @JsonIgnore
+    public Builder withInstrumentObject(Instrument instrument) {
+      instrumentBuilder = Instrument.builder(instrument);
+      return this;
+    }
+
+    @Override
+    public Builder withUuid(String uuid) {
+      instrumentBuilder.withUuid(uuid);
+      return this;
+    }
+
+    @Override
+    public Builder withType(String type) {
+      instrumentBuilder.withType(type);
+      return this;
+    }
+
+    @Override
+    public Builder withInstrument(String instrument) {
+      instrumentBuilder.withInstrument(instrument);
+      return this;
+    }
+
+    @Override
+    public Builder withShortName(String shortName) {
+      instrumentBuilder.withShortName(shortName);
+      return this;
+    }
+
+    @Override
+    public Builder withReleaseDate(LocalDate releaseDate) {
+      instrumentBuilder.withReleaseDate(releaseDate);
+      return this;
+    }
+
+    @Override
+    public Builder withRestricted(Boolean restricted) {
+      instrumentBuilder.withRestricted(restricted);
+      return this;
+    }
+
+    @Override
+    public Builder withStatus(String status) {
+      instrumentBuilder.withStatus(status);
+      return this;
+    }
+
+    @Override
+    public Builder withDataComment(String dataComment) {
+      instrumentBuilder.withDataComment(dataComment);
+      return this;
+    }
+
+    @Override
+    public Builder withDirName(String dirName) {
+      instrumentBuilder.withDirName(dirName);
+      return this;
+    }
+
+    @Override
+    public Builder withBagName(String bagName) {
+      instrumentBuilder.withBagName(bagName);
       return this;
     }
 
@@ -135,7 +238,7 @@ public class PackageInstrument {
 
     public PackageInstrument build() {
       return new PackageInstrument(
-          instrument,
+          instrumentBuilder.build(),
           typeName,
           extensions,
           otherFields

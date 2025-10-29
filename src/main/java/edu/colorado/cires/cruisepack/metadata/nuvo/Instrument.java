@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.TreeMap;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonDeserialize(builder = Instrument.Builder.class)
-public class Instrument {
+public class Instrument implements InstrumentGetters {
 
   public static Builder builder(Instrument data) {
     return new Builder(data);
@@ -26,14 +27,12 @@ public class Instrument {
   private final String type;
   private final String instrument;
   private final String shortName;
-  private final String releaseDate;
-  // allowed to be null to indicate that this should defer to the cruise level never_public setting
-  private final Boolean restricted;
+  private final LocalDate releaseDate;
+  private Boolean restricted;
   private final String status;
   private final String dataComment;
   private final String dirName;
   private final String bagName;
-  private final String ancillaryDataDetails;
   private final Map<String, Object> otherFields;
 
   private Instrument(
@@ -41,13 +40,12 @@ public class Instrument {
       String type,
       String instrument,
       String shortName,
-      String releaseDate,
+      LocalDate releaseDate,
       Boolean restricted,
       String status,
       String dataComment,
       String dirName,
       String bagName,
-      String ancillaryDataDetails,
       Map<String, Object> otherFields
   ) {
     this.uuid = uuid;
@@ -60,7 +58,6 @@ public class Instrument {
     this.dataComment = dataComment;
     this.dirName = dirName;
     this.bagName = bagName;
-    this.ancillaryDataDetails = ancillaryDataDetails;
     this.otherFields = Collections.unmodifiableMap(otherFields);
   }
 
@@ -80,7 +77,7 @@ public class Instrument {
     return shortName;
   }
 
-  public String getReleaseDate() {
+  public LocalDate getReleaseDate() {
     return releaseDate;
   }
 
@@ -104,10 +101,6 @@ public class Instrument {
     return bagName;
   }
 
-  public String getAncillaryDataDetails() {
-    return ancillaryDataDetails;
-  }
-
   @Deprecated
   @JsonAnyGetter
   public Map<String, Object> getOtherFields() {
@@ -124,13 +117,12 @@ public class Instrument {
         that.instrument) && Objects.equals(shortName, that.shortName) && Objects.equals(releaseDate, that.releaseDate)
         && Objects.equals(restricted, that.restricted) && Objects.equals(status, that.status) && Objects.equals(
         dataComment, that.dataComment) && Objects.equals(dirName, that.dirName) && Objects.equals(bagName, that.bagName)
-        && Objects.equals(ancillaryDataDetails, that.ancillaryDataDetails) && Objects.equals(otherFields, that.otherFields);
+        && Objects.equals(otherFields, that.otherFields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, type, instrument, shortName, releaseDate, restricted, status, dataComment, dirName, bagName, ancillaryDataDetails,
-        otherFields);
+    return Objects.hash(uuid, type, instrument, shortName, releaseDate, restricted, status, dataComment, dirName, bagName, otherFields);
   }
 
   @Override
@@ -140,31 +132,29 @@ public class Instrument {
         ", type='" + type + '\'' +
         ", instrument='" + instrument + '\'' +
         ", shortName='" + shortName + '\'' +
-        ", releaseDate='" + releaseDate + '\'' +
+        ", releaseDate=" + releaseDate +
         ", restricted=" + restricted +
         ", status='" + status + '\'' +
         ", dataComment='" + dataComment + '\'' +
         ", dirName='" + dirName + '\'' +
         ", bagName='" + bagName + '\'' +
-        ", ancillaryDataDetails='" + ancillaryDataDetails + '\'' +
         ", otherFields=" + otherFields +
         '}';
   }
 
   @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-  public static class Builder {
+  public static class Builder implements InstrumentBuilder {
 
     private String uuid;
     private String type;
     private String instrument;
     private String shortName;
-    private String releaseDate;
+    private LocalDate releaseDate;
     private Boolean restricted;
     private String status;
     private String dataComment;
     private String dirName;
     private String bagName;
-    private String ancillaryDataDetails;
     private Map<String, Object> otherFields = new TreeMap<>();
 
     private Builder() {
@@ -177,12 +167,11 @@ public class Instrument {
       instrument = src.getInstrument();
       shortName = src.getShortName();
       releaseDate = src.getReleaseDate();
-      restricted = src.restricted;
+      restricted = src.getRestricted();
       status = src.getStatus();
       dataComment = src.getDataComment();
       dirName = src.getDirName();
       bagName = src.getBagName();
-      ancillaryDataDetails = src.getAncillaryDataDetails();
       otherFields = new TreeMap<>(src.getOtherFields());
     }
 
@@ -206,7 +195,7 @@ public class Instrument {
       return this;
     }
 
-    public Builder withReleaseDate(String releaseDate) {
+    public Builder withReleaseDate(LocalDate releaseDate) {
       this.releaseDate = releaseDate;
       return this;
     }
@@ -236,11 +225,6 @@ public class Instrument {
       return this;
     }
 
-    public Builder withAncillaryDataDetails(String ancillaryDataDetails) {
-      this.ancillaryDataDetails = ancillaryDataDetails;
-      return this;
-    }
-
     @Deprecated
     @JsonAnySetter
     private Builder withOtherField(String name, Object value) {
@@ -260,7 +244,6 @@ public class Instrument {
           dataComment,
           dirName,
           bagName,
-          ancillaryDataDetails,
           otherFields
       );
     }

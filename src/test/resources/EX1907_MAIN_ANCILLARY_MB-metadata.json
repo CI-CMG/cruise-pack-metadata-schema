@@ -1,0 +1,140 @@
+{
+  "cruise_id": "EX1907",
+  "segment_id": "MAIN",
+  "package_id": "EX1907_MAIN",
+  "master_release_date": "2025-10-01",
+  "ship": "Amy Gale",
+  "ship_uuid": "3dd829c5-7783-4075-a760-4f3aa3857482",
+  "departure_port": "Aaiun, EH",
+  "departure_date": "2025-10-01",
+  "arrival_port": "Aalborg, DK",
+  "arrival_date": "2025-10-01",
+  "sea_area": "Aegean Sea",
+  "cruise_title": "Three Hour Cruise",
+  "cruise_purpose": "Fishin",
+  "cruise_description": "Five passengers set sail that day for a three hour tour",
+  "sources": [
+    {
+      "name": "AFSC",
+      "street": "7600 Sand Point Way N.E., Building 4",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98115",
+      "country": "USA",
+      "phone": "206-526-4000",
+      "uuid": "01082b23-154c-4c2d-bef7-5e35315d41e0",
+      "use": true
+    }
+  ],
+  "funders": [
+    {
+      "name": "OER",
+      "street": "SSMC3, 1315 East-West Highway, 10th Floor",
+      "city": "Silver Spring",
+      "state": "MD",
+      "zip": "20910",
+      "country": "USA",
+      "email": "ncddcmetadata@noaa.gov",
+      "phone": "301-734-1000",
+      "uuid": "08D95C427FB128479945893256DADE37",
+      "use": true
+    }
+  ],
+  "scientists": [
+    {
+      "name": "Chuck Anderson",
+      "organization": "NCEI",
+      "position": "Fisheries Acoustics Data Manager",
+      "street": "325 S. Broadway",
+      "city": "Boulder",
+      "state": "CO",
+      "zip": "80305",
+      "phone": "303-497-4742",
+      "email": "charles.anderson@noaa.gov",
+      "country": "USA",
+      "uuid": "7273deab-88c3-4b1d-9b80-0ee5fbc42a21",
+      "use": true
+    }
+  ],
+  "projects": [
+
+  ],
+  "omics": {
+    "sampling_types": [
+      "Water",
+      "Soil/Sediment",
+      "Organic Tissue"
+    ],
+    "analyses_types": [
+      "Barcoding",
+      "Genomics",
+      "Transcriptomics",
+      "Proteomics",
+      "Metabolomics",
+      "Epigenetics",
+      "Other",
+      "Metabarcoding",
+      "Metagenomics",
+      "Metatranscriptomics",
+      "Metaproteomics",
+      "Metametabolomics",
+      "Microbiome"
+    ],
+    "omics_comment": "More info",
+    "omics_poc": {
+      "name": "Anne Trehu",
+      "uuid": "fcac5cf3-18fe-4047-8819-b996a6fa90cd",
+      "phone": "541-737-2655",
+      "email": "trehu@coas.oregonstate.edu"
+    },
+    "NCBI_accession": "11111"
+  },
+  "metadata_author": {
+    "name": "Anne Trehu",
+    "uuid": "fcac5cf3-18fe-4047-8819-b996a6fa90cd",
+    "phone": "541-737-2655",
+    "email": "trehu@coas.oregonstate.edu"
+  },
+  "instruments": [
+    {
+      "uuid": "9da1f3f0-9ec8-11e1-a8b0-0800200c9a66",
+      "type": "Multibeam Bathymetry",
+      "instrument": "Kongsberg EM122",
+      "short_name": "EM122",
+      "release_date": "2025-10-01",
+      "status": "Raw",
+      "data_comment": "Bathy",
+      "dir_name": "EM122",
+      "bag_name": "EX1907_MAIN_MB-BATHY"
+    },
+    {
+      "uuid": "9da1f3f0-9ec8-11e1-a8b0-0800200c9a66",
+      "type": "Ancillary Data",
+      "instrument": "Multibeam Bathymetry Ancillary",
+      "short_name": "MB",
+      "release_date": "2025-10-01",
+      "status": "Raw",
+      "data_comment": "Ancillary Bathy",
+      "dir_name": "MB",
+      "bag_name": "EX1907_MAIN_ANCILLARY"
+    }
+  ],
+  "package_instruments": {
+    "MB": {
+      "uuid": "9da1f3f0-9ec8-11e1-a8b0-0800200c9a66",
+      "type": "Ancillary Data",
+      "instrument": "Multibeam Bathymetry Ancillary",
+      "short_name": "MB",
+      "release_date": "2025-10-01",
+      "status": "Raw",
+      "data_comment": "Ancillary Bathy",
+      "dir_name": "MB",
+      "bag_name": "EX1907_MAIN_ANCILLARY",
+      "type_name": "ANCILLARY",
+      "flatten": false,
+      "extensions": [
+
+      ]
+    }
+  }
+}
