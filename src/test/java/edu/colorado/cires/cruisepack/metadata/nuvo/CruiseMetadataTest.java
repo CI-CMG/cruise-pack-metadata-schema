@@ -324,19 +324,16 @@ public class CruiseMetadataTest {
     assertEquals("EM122", packageInstrument.getDirName());
     assertEquals("EX1907_MAIN_MB-BATHY", packageInstrument.getBagName());
 
-
     assertEquals("MB-BATHY", packageInstrument.getTypeName());
 
-    // assertTrue(packageInstrument.isFlatten());
+    assertTrue(packageInstrument.isFlatten());
     assertEquals(Arrays.asList(
         "all",
         "kmall"
     ), packageInstrument.getExtensions());
 
-
     assertTrue(packageInstrument.getInstrumentObject().getOtherFields().isEmpty());
-    assertEquals(2, packageInstrument.getOtherFields().size());
-    assertTrue((Boolean) packageInstrument.getOtherFields().get("flatten"));
+    assertEquals(1, packageInstrument.getOtherFields().size());
     assertEquals("bar", packageInstrument.getOtherFields().get("foo"));
 
     assertTrue(cruiseMetadata.getOtherFields().isEmpty());

@@ -29,18 +29,20 @@ public class PackageInstrument implements InstrumentGetters {
   private final Instrument instrument;
   private final String typeName;
   private final List<String> extensions;
+  private final boolean flatten;
   private final Map<String, Object> otherFields;
 
 
   private PackageInstrument(
       Instrument instrument,
       String typeName,
-      List<String> extensions,
+      List<String> extensions, boolean flatten,
       Map<String, Object> otherFields
   ) {
     this.instrument = instrument;
     this.typeName = typeName;
     this.extensions = extensions;
+    this.flatten = flatten;
     this.otherFields = Collections.unmodifiableMap(otherFields);
   }
 
@@ -98,6 +100,10 @@ public class PackageInstrument implements InstrumentGetters {
     return extensions;
   }
 
+  public boolean isFlatten() {
+    return flatten;
+  }
+
   @Deprecated
   @JsonAnyGetter
   public Map<String, Object> getOtherFields() {
@@ -110,13 +116,13 @@ public class PackageInstrument implements InstrumentGetters {
       return false;
     }
     PackageInstrument that = (PackageInstrument) o;
-    return Objects.equals(instrument, that.instrument) && Objects.equals(typeName, that.typeName) && Objects.equals(
-        extensions, that.extensions) && Objects.equals(otherFields, that.otherFields);
+    return flatten == that.flatten && Objects.equals(instrument, that.instrument) && Objects.equals(typeName, that.typeName)
+        && Objects.equals(extensions, that.extensions) && Objects.equals(otherFields, that.otherFields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(instrument, typeName, extensions, otherFields);
+    return Objects.hash(instrument, typeName, extensions, flatten, otherFields);
   }
 
   @Override
@@ -125,6 +131,7 @@ public class PackageInstrument implements InstrumentGetters {
         "instrument=" + instrument +
         ", typeName='" + typeName + '\'' +
         ", extensions=" + extensions +
+        ", flatten=" + flatten +
         ", otherFields=" + otherFields +
         '}';
   }
@@ -135,6 +142,7 @@ public class PackageInstrument implements InstrumentGetters {
     private Instrument.Builder instrumentBuilder = Instrument.builder();
     private String typeName;
     private List<String> extensions;
+    private Boolean flatten;
     private Map<String, Object> otherFields = new TreeMap<>();
 
     private Builder() {
@@ -229,6 +237,11 @@ public class PackageInstrument implements InstrumentGetters {
       return this;
     }
 
+    public Builder withFlatten(Boolean flatten) {
+      this.flatten = flatten;
+      return this;
+    }
+
     @Deprecated
     @JsonAnySetter
     private Builder withOtherField(String name, Object value) {
@@ -241,6 +254,7 @@ public class PackageInstrument implements InstrumentGetters {
           instrumentBuilder.build(),
           typeName,
           extensions,
+          flatten == null ? false : flatten,
           otherFields
       );
     }
