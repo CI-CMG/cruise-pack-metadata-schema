@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 
 public class CruiseMetadataTest {
 
+  private final ObjectMapper objectMapper = CruisePackMetadataObjectMapperFactory.createObjectMapper();
+
   @Test
   public void testSerdesCruise() throws IOException {
     Path input = Paths.get("src/test/resources/EX1907_MAIN-metadata.json");
@@ -26,7 +28,6 @@ public class CruiseMetadataTest {
     Files.createDirectories(output.getParent());
     Files.deleteIfExists(output);
 
-    ObjectMapper objectMapper = CruisePackMetadataObjectMapperFactory.createObjectMapper();
     CruiseMetadata cruiseMetadata = objectMapper.readValue(input.toFile(), CruiseMetadata.class);
     assertTrue(cruiseMetadata.isRestricted());
     assertEquals("EX1907", cruiseMetadata.getCruiseId());
@@ -153,7 +154,7 @@ public class CruiseMetadataTest {
     assertEquals("EX1907_MAIN_ANCILLARY", ancillary.getBagName());
     assertTrue(ancillary.getOtherFields().isEmpty());
 
-    assertNull(cruiseMetadata.getPackageInstruments());
+    assertTrue(cruiseMetadata.getPackageInstruments().isEmpty());
     assertTrue(cruiseMetadata.getOtherFields().isEmpty());
 
     objectMapper.writeValue(output.toFile(), cruiseMetadata);
@@ -230,7 +231,7 @@ public class CruiseMetadataTest {
     assertEquals("7273deab-88c3-4b1d-9b80-0ee5fbc42a21", scientist.getUuid());
     assertTrue((Boolean) scientist.getOtherFields().get("use"));
 
-    assertNull(cruiseMetadata.getProjects());
+    assertTrue(cruiseMetadata.getProjects().isEmpty());
 
     Omics omics = cruiseMetadata.getOmics();
     assertEquals(Arrays.asList(
@@ -346,6 +347,11 @@ public class CruiseMetadataTest {
     written.remove("restricted");
     assertEquals(expected, written);
 
+  }
+
+  @Test
+  public void testEmptyCollections() throws IOException {
+    assertEquals("{\"restricted\":false}", objectMapper.writeValueAsString(CruiseMetadata.builder().build()));
   }
 
 }

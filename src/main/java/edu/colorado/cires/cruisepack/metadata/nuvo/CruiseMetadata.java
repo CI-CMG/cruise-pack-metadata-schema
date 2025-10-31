@@ -276,14 +276,14 @@ public class CruiseMetadata {
     private String cruiseTitle;
     private String cruisePurpose;
     private String cruiseDescription;
-    private List<Organization> sources;
-    private List<Organization> funders;
-    private List<Person> scientists;
-    private List<String> projects;
+    private List<Organization> sources = Collections.emptyList();
+    private List<Organization> funders = Collections.emptyList();
+    private List<Person> scientists = Collections.emptyList();
+    private List<String> projects = Collections.emptyList();
     private Omics omics;
     private Person metadataAuthor;
-    private List<Instrument> instruments;
-    private Map<String, PackageInstrument> packageInstruments;
+    private List<Instrument> instruments = Collections.emptyList();
+    private Map<String, PackageInstrument> packageInstruments = Collections.emptyMap();
     private Map<String, Object> otherFields = new TreeMap<>();
 
     private Builder() {
@@ -394,7 +394,7 @@ public class CruiseMetadata {
 
     public Builder withSources(List<Organization> sources) {
       if (sources == null) {
-        this.sources = null;
+        this.sources = Collections.emptyList();
       } else {
         this.sources = Collections.unmodifiableList(new ArrayList<>(sources));
       }
@@ -403,7 +403,7 @@ public class CruiseMetadata {
 
     public Builder withFunders(List<Organization> funders) {
       if (funders == null) {
-        this.funders = null;
+        this.funders = Collections.emptyList();
       } else {
         this.funders = Collections.unmodifiableList(new ArrayList<>(funders));
       }
@@ -412,7 +412,7 @@ public class CruiseMetadata {
 
     public Builder withScientists(List<Person> scientists) {
       if (scientists == null) {
-        this.scientists = null;
+        this.scientists = Collections.emptyList();
       } else {
         this.scientists = Collections.unmodifiableList(new ArrayList<>(scientists));
       }
@@ -421,7 +421,7 @@ public class CruiseMetadata {
 
     public Builder withProjects(List<String> projects) {
       if (projects == null) {
-        this.projects = null;
+        this.projects = Collections.emptyList();
       } else {
         this.projects = Collections.unmodifiableList(new ArrayList<>(projects));
       }
@@ -440,7 +440,7 @@ public class CruiseMetadata {
 
     public Builder withInstruments(List<Instrument> instruments) {
       if (instruments == null) {
-        this.instruments = null;
+        this.instruments = Collections.emptyList();
       } else {
         this.instruments = Collections.unmodifiableList(new ArrayList<>(instruments));
       }
@@ -449,7 +449,7 @@ public class CruiseMetadata {
 
     public Builder withPackageInstruments(Map<String, PackageInstrument> packageInstruments) {
       if (packageInstruments == null) {
-        this.packageInstruments = null;
+        this.packageInstruments = Collections.emptyMap();
       } else {
         this.packageInstruments = Collections.unmodifiableMap(new LinkedHashMap<>(packageInstruments));
       }

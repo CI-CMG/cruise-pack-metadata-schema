@@ -141,7 +141,7 @@ public class PackageInstrument implements InstrumentGetters {
 
     private Instrument.Builder instrumentBuilder = Instrument.builder();
     private String typeName;
-    private List<String> extensions;
+    private List<String> extensions = Collections.emptyList();
     private Boolean flatten;
     private Map<String, Object> otherFields = new TreeMap<>();
 
@@ -230,7 +230,7 @@ public class PackageInstrument implements InstrumentGetters {
 
     public Builder withExtensions(List<String> extensions) {
       if (extensions == null) {
-        this.extensions = null;
+        this.extensions = Collections.emptyList();
       } else {
         this.extensions = Collections.unmodifiableList(new ArrayList<>(extensions));
       }

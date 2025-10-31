@@ -1,6 +1,7 @@
 package edu.colorado.cires.cruisepack.metadata.nuvo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ public final class CruisePackMetadataObjectMapperFactory {
         .addModule(new Jdk8Module())
         .addModule(new JavaTimeModule())
         .defaultPropertyInclusion(JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+        .defaultPropertyInclusion(JsonInclude.Value.construct(Include.NON_EMPTY, JsonInclude.Include.NON_EMPTY))
         .propertyNamingStrategy(PropertyNamingStrategies.SnakeCaseStrategy.INSTANCE)
         .build();
   }

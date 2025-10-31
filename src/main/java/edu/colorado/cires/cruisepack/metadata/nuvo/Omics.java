@@ -108,8 +108,8 @@ public class Omics {
   public static class Builder {
 
     private String ncbiAccession;
-    private List<String> samplingTypes;
-    private List<String> analysesTypes;
+    private List<String> samplingTypes = Collections.emptyList();
+    private List<String> analysesTypes = Collections.emptyList();
     private String omicsComment;
     private Person omicsPoc;
     private Map<String, Object> otherFields = new TreeMap<>();
@@ -135,7 +135,7 @@ public class Omics {
 
     public Builder withSamplingTypes(List<String> samplingTypes) {
       if (samplingTypes == null) {
-        this.samplingTypes = null;
+        this.samplingTypes = Collections.emptyList();
       } else {
         this.samplingTypes = Collections.unmodifiableList(new ArrayList<>(samplingTypes));
       }
@@ -144,7 +144,7 @@ public class Omics {
 
     public Builder withAnalysesTypes(List<String> analysesTypes) {
       if (analysesTypes == null) {
-        this.analysesTypes = null;
+        this.analysesTypes = Collections.emptyList();
       } else {
         this.analysesTypes = Collections.unmodifiableList(new ArrayList<>(analysesTypes));
       }
