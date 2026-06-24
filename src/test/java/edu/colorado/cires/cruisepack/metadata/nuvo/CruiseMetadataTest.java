@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,10 +13,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 public class CruiseMetadataTest {
 
-  private final ObjectMapper objectMapper = CruisePackMetadataObjectMapperFactory.createObjectMapper();
+  private final JsonMapper objectMapper = CruisePackMetadataObjectMapperFactory.createObjectMapper();
 
   @Test
   public void testSerdesCruise() throws IOException {
@@ -46,7 +46,7 @@ public class CruiseMetadataTest {
     assertEquals("Five passengers set sail that day for a three hour tour", cruiseMetadata.getCruiseDescription());
 
     assertEquals(1, cruiseMetadata.getSources().size());
-    Organization source = cruiseMetadata.getSources().get(0);
+    Organization source = cruiseMetadata.getSources().getFirst();
     assertEquals("AFSC", source.getName());
     assertEquals("7600 Sand Point Way N.E., Building 4", source.getStreet());
     assertEquals("Seattle", source.getCity());
@@ -59,7 +59,7 @@ public class CruiseMetadataTest {
     assertTrue((Boolean) source.getOtherFields().get("use"));
 
     assertEquals(1, cruiseMetadata.getFunders().size());
-    Organization funder = cruiseMetadata.getFunders().get(0);
+    Organization funder = cruiseMetadata.getFunders().getFirst();
     assertEquals("OER", funder.getName());
     assertEquals("SSMC3, 1315 East-West Highway, 10th Floor", funder.getStreet());
     assertEquals("Silver Spring", funder.getCity());
@@ -72,7 +72,7 @@ public class CruiseMetadataTest {
     assertTrue((Boolean) funder.getOtherFields().get("use"));
 
     assertEquals(1, cruiseMetadata.getScientists().size());
-    Person scientist = cruiseMetadata.getScientists().get(0);
+    Person scientist = cruiseMetadata.getScientists().getFirst();
     assertEquals("Chuck Anderson", scientist.getName());
     assertEquals("NCEI", scientist.getOrganization());
     assertEquals("Fisheries Acoustics Data Manager", scientist.getPosition());
@@ -172,7 +172,7 @@ public class CruiseMetadataTest {
     Files.createDirectories(output.getParent());
     Files.deleteIfExists(output);
 
-    ObjectMapper objectMapper = CruisePackMetadataObjectMapperFactory.createObjectMapper();
+    JsonMapper objectMapper = CruisePackMetadataObjectMapperFactory.createObjectMapper();
     CruiseMetadata cruiseMetadata = objectMapper.readValue(input.toFile(), CruiseMetadata.class);
     assertFalse(cruiseMetadata.isRestricted());
     assertEquals("EX1907", cruiseMetadata.getCruiseId());
